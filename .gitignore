@@ -3,3 +3,6 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .idea/
+/gradlew
+/gradlew.bat
+/settings.gradle.kts
