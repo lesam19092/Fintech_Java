@@ -1,27 +1,28 @@
 package org.example.converter;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.pojo.City;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Slf4j
 public class XmlConverter {
-    private XmlConverter() {
-    }
-
-    private static final Logger logger = Logger.getLogger(XmlConverter.class.getName());
 
     public static void toXml(City city) {
+        log.debug("method toXml started");
         XmlMapper xmlMapper = new XmlMapper();
         try {
             xmlMapper.writeValue(new File("response.xml"), city);
-            logger.log(Level.INFO, "XML file written ");
+            log.info("XML file written into responce.xml with body " + city.toString());
         } catch (IOException e) {
-            logger.log(Level.SEVERE, e.getMessage());
+            log.error(e.getMessage());
         }
+        log.debug("method toXml ended");
     }
 
 }
