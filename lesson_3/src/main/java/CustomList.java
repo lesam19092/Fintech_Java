@@ -1,6 +1,6 @@
 import java.util.List;
 
-public interface CustomLinkedListImpl<E> {
+public interface CustomList<E> {
 
     boolean add(E e);
 

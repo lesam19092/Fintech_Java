@@ -1,40 +1,38 @@
 
-
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
-public class CustomLinkedList<E> implements CustomLinkedListImpl<E> {
+public class CustomLinkedList<E> implements CustomList<E> {
 
     private Node<E> first;
     private Node<E> last;
     private int size;
 
-
-    public CustomLinkedList() {
+    public E getFirst() {
+        if (first != null) {
+            return first.element;
+        }
+        throw new NoSuchElementException();
     }
 
-    public Node<E> getFirst() {
-        return first;
+    public void setFirst(E e) {
+        this.first.element = e;
     }
 
-    public void setFirst(Node<E> first) {
-        this.first = first;
+    public E getLast() {
+        if (last != null) {
+            return last.element;
+        }
+        throw new NoSuchElementException();
     }
 
-    public Node<E> getLast() {
-        return last;
-    }
-
-    public void setLast(Node<E> last) {
-        this.last = last;
+    public void setLast(E e) {
+        this.last.element = e;
     }
 
     public int getSize() {
         return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
     }
 
 
@@ -96,21 +94,15 @@ public class CustomLinkedList<E> implements CustomLinkedListImpl<E> {
      */
     @Override
     public E get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
+        checkIndex(index);
 
-        if (index == 0) {
-            return first.element;
-        }
         if (index == size - 1) {
             return last.element;
         }
 
-        Node<E> current = first;
-        for (int i = 0; i < index; i++) {
-            current = current.next;
-        }
+
+        Node<E> current = getNode(index);
+
         return current.element;
     }
 
@@ -120,9 +112,7 @@ public class CustomLinkedList<E> implements CustomLinkedListImpl<E> {
      */
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
+        checkIndex(index);
 
 
         Node<E> current = first;
@@ -138,9 +128,7 @@ public class CustomLinkedList<E> implements CustomLinkedListImpl<E> {
             size--;
             return elementToRemove;
         } else {
-            for (int i = 0; i < index - 1; i++) {
-                current = current.next;
-            }
+            current = getNode(index - 1);
             toRemove = current.next;
             current.next = toRemove.next;
             if (toRemove.next != null) {
@@ -154,5 +142,32 @@ public class CustomLinkedList<E> implements CustomLinkedListImpl<E> {
         return toRemove.element;
     }
 
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, size));
+        }
+    }
+
+    private Node<E> getNode(int index) {
+        Node<E> current = first;
+
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current;
+    }
+
+    private class Node<E> {
+        E element;
+        Node prev;
+        Node next;
+
+
+        public Node(E element) {
+            this.element = element;
+            this.prev = null;
+            this.next = null;
+        }
+    }
 
 }
