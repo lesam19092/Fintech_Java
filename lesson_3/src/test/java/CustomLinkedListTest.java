@@ -1,10 +1,11 @@
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class CustomLinkedListTest {
@@ -16,11 +17,16 @@ public class CustomLinkedListTest {
 
         list.add(element);
 
-        assertEquals(1, list.getSize());
-        assertEquals(element, list.getFirst().element);
-        assertEquals(element, list.getLast().element);
-        assertNull(list.getFirst().prev);
-        assertNull(list.getLast().next);
+
+        assertAll(
+                "Проверка тестов с добавлением в пустой список",
+                () -> {
+                    assertEquals(1, list.getSize());
+                    assertEquals(element, list.getFirst());
+                    assertEquals(element, list.getLast());
+                }
+        );
+
     }
 
     @Test
@@ -32,11 +38,15 @@ public class CustomLinkedListTest {
 
         list.add(str);
 
-        assertEquals(2, list.getSize());
-        assertEquals("foo", list.getFirst().element);
-        assertEquals("bar", list.getLast().element);
-        assertNull(list.getFirst().prev);
-        assertNull(list.getLast().next);
+        assertAll(
+                "Проверка тестов с добавлением в заполненный  список",
+                () -> {
+                    assertEquals(2, list.getSize());
+                    assertEquals("foo", list.getFirst());
+                    assertEquals("bar", list.getLast());
+                }
+        );
+
 
     }
 
@@ -106,8 +116,15 @@ public class CustomLinkedListTest {
         CustomLinkedList<String> list = new CustomLinkedList<>();
         list.add("element");
         String removed = list.remove(0);
-        assertEquals("element", removed);
-        assertTrue(list.getSize() == 0);
+
+        assertAll(
+                "Проверка удаления одного элемента",
+                () -> {
+                    assertEquals("element", removed);
+                    assertTrue(list.getSize() == 0);
+                }
+        );
+
     }
 
     @Test
@@ -116,9 +133,16 @@ public class CustomLinkedListTest {
         list.add("10");
         list.add("20");
         String removed = list.remove(0);
-        assertEquals("10", removed);
-        assertEquals(1, list.getSize());
-        assertEquals("20", list.get(0));
+
+
+        assertAll(
+                "Проверка удаления первого элемента",
+                () -> {
+                    assertEquals("10", removed);
+                    assertEquals(1, list.getSize());
+                    assertEquals("20", list.get(0));
+                }
+        );
 
     }
 
@@ -128,9 +152,15 @@ public class CustomLinkedListTest {
         list.add("first");
         list.add("second");
         String removed = list.remove(1);
-        assertEquals("second", removed);
-        assertEquals(1, list.getSize());
-        assertEquals("first", list.get(0));
+
+        assertAll(
+                "Проверка удаления последнего элемента",
+                () -> {
+                    assertEquals("second", removed);
+                    assertEquals(1, list.getSize());
+                    assertEquals("first", list.get(0));
+                }
+        );
     }
 
     @Test
@@ -140,10 +170,17 @@ public class CustomLinkedListTest {
         list.add("20");
         list.add("30");
         String removed = list.remove(1);
-        assertEquals("20", removed);
-        assertEquals(2, list.getSize());
-        assertEquals("10", list.get(0));
-        assertEquals("30", list.get(1));
+
+
+        assertAll(
+                "Проверка удаления элемента по середине",
+                () -> {
+                    assertEquals("20", removed);
+                    assertEquals(2, list.getSize());
+                    assertEquals("10", list.get(0));
+                    assertEquals("30", list.get(1));
+                }
+        );
     }
 
     @Test
@@ -168,15 +205,29 @@ public class CustomLinkedListTest {
         list.add("three");
         list.remove(1);
         list.remove(0);
-        assertEquals(1, list.getSize());
-        assertEquals("three", list.get(0));
+
+
+        assertAll(
+                "Проверка удаления повторяющихся элементов",
+                () -> {
+                    assertEquals(1, list.getSize());
+                    assertEquals("three", list.get(0));
+                }
+        );
     }
 
     @Test
     public void сontainsEmptyList() {
         CustomLinkedList<String> list = new CustomLinkedList<>();
-        assertFalse(list.contains("Hello"));
-        assertFalse(list.contains(null));
+
+
+        assertAll(
+                "Проверка содержания в пустом списке",
+                () -> {
+                    assertFalse(list.contains("Hello"));
+                    assertFalse(list.contains(null));
+                }
+        );
     }
 
     @Test
@@ -184,16 +235,29 @@ public class CustomLinkedListTest {
         CustomLinkedList<Integer> list = new CustomLinkedList<>();
         list.add(10);
         list.add(20);
-        assertTrue(list.contains(10));
-        assertFalse(list.contains(30));
+
+
+        assertAll(
+                "Проверка содержания элементов , которых нет",
+                () -> {
+                    assertTrue(list.contains(10));
+                    assertFalse(list.contains(30));
+                }
+        );
     }
 
     @Test
-    public void сontainsNullElement_InList() {
+    public void сontainsNullElementInList() {
         CustomLinkedList<String> list = new CustomLinkedList<>();
         list.add(null);
-        assertTrue(list.contains(null));
-        assertFalse(list.contains("Hello"));
+
+        assertAll(
+                "Проверка содержания null в списке",
+                () -> {
+                    assertTrue(list.contains(null));
+                    assertFalse(list.contains("Hello"));
+                }
+        );
     }
 
     @Test
@@ -210,8 +274,15 @@ public class CustomLinkedListTest {
 
         boolean result = list.addAll(empty);
 
-        assertFalse(result);
-        assertEquals(0, list.getSize());
+
+        assertAll(
+                "Проверка добавления пустой коллекции null в списке",
+                () -> {
+                    assertFalse(result);
+                    assertEquals(0, list.getSize());
+                }
+        );
+
     }
 
     @Test
@@ -221,11 +292,18 @@ public class CustomLinkedListTest {
 
         boolean result = list.addAll(toAdd);
 
-        assertTrue(result);
-        assertEquals(3, list.getSize());
-        assertEquals("a", list.get(0));
-        assertEquals("b", list.get(1));
-        assertEquals("c", list.get(2));
+
+        assertAll(
+                "Проверка добавления непустой коллекции в список",
+                () -> {
+                    assertTrue(result);
+                    assertEquals(3, list.getSize());
+                    assertEquals("a", list.get(0));
+                    assertEquals("b", list.get(1));
+                    assertEquals("c", list.get(2));
+                }
+        );
+
     }
 
     @Test

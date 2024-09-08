@@ -10,15 +10,14 @@ repositories {
 }
 
 ext {
-    testVersion = '4.13.1'
+    testVersion = '5.8.1'
     lombokVersion = '1.18.34'
 
 }
 
 dependencies {
     implementation "org.projectlombok:lombok:$lombokVersion"
-
-    testImplementation "junit:junit:$testVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter:$testVersion"
 
 }
 
