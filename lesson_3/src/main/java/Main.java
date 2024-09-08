@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -15,13 +18,28 @@ public class Main {
 
         Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-        CustomLinkedList<Integer> list1 = new CustomLinkedList<>();
 
 
-        stream.reduce(null, (l1, l2) -> {
-            list1.add(l2);
-            return null;
-        });
+
+
+        CustomLinkedList<Integer> resalt = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+                .reduce(
+                        new CustomLinkedList<>(),
+                        (list, value) -> {
+                            list.add(value);
+                            return list;
+                        },
+                        (v1, v2) -> {
+                            v1.addAll(new ArrayList<>((Collection) v2));
+                            return v1;
+                        }
+                );
+
+
+        for (int i = 0; i < resalt.getSize(); i++) {
+            System.out.println(resalt.get(i));
+        }
+
 
 
     }
