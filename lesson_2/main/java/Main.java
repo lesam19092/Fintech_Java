@@ -6,6 +6,7 @@ import org.example.pojo.City;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 
 @Slf4j
@@ -14,7 +15,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         File file = new File("city.json");
         ObjectMapper objectMapper = new ObjectMapper();
-
         if (!file.exists()) {
             log.warn("File " + file.getName() + " not found. Processing might fail.");
             return;
