@@ -1,4 +1,6 @@
+package test.java;
 
+import main.java.CustomLinkedList;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
