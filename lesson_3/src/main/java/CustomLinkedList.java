@@ -188,12 +188,12 @@ public class CustomLinkedList<E> implements CustomList<E> {
 
         @Override
         public E next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException("No such element");
+            if (hasNext()) {
+                E element = current.element;
+                current = current.next;
+                return element;
             }
-            E element = current.element;
-            current = current.next;
-            return element;
+            throw new IndexOutOfBoundsException("вы вышли за пределы списка");
         }
 
         @Override
