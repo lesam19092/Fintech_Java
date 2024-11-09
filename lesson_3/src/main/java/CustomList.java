@@ -1,3 +1,5 @@
+package main.java;
+
 import java.util.List;
 
 public interface CustomList<E> {
@@ -11,5 +13,7 @@ public interface CustomList<E> {
     E get(int index);
 
     E remove(int index);
+
+    CustomIterator<E> getIterator();
 
 }

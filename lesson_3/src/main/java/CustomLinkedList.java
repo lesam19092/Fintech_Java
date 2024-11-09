@@ -1,6 +1,8 @@
+package main.java;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
 
 public class CustomLinkedList<E> implements CustomList<E> {
@@ -142,6 +144,11 @@ public class CustomLinkedList<E> implements CustomList<E> {
         return toRemove.element;
     }
 
+    @Override
+    public CustomIterator<E> getIterator() {
+        return new CustomLinkedListIterator();
+    }
+
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, size));
@@ -167,6 +174,33 @@ public class CustomLinkedList<E> implements CustomList<E> {
             this.element = element;
             this.prev = null;
             this.next = null;
+        }
+    }
+
+    private class CustomLinkedListIterator implements CustomIterator<E> {
+
+        private Node<E> current = first;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public E next() {
+            if (hasNext()) {
+                E element = current.element;
+                current = current.next;
+                return element;
+            }
+            throw new IndexOutOfBoundsException("вы вышли за пределы списка");
+        }
+
+        @Override
+        public void forEachRemaining(Consumer<? super E> action) {
+            while (hasNext()) {
+                action.accept(next());
+            }
         }
     }
 

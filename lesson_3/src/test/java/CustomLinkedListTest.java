@@ -1,6 +1,10 @@
+package test.java;
 
+import main.java.CustomIterator;
+import main.java.CustomLinkedList;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -315,5 +319,53 @@ public class CustomLinkedListTest {
 
         assertEquals(list.getSize(), 0);
 
+    }
+
+    @Test
+    public void testIteratorHasNext() {
+        CustomLinkedList<String> list = new CustomLinkedList<>();
+        list.add("one");
+        list.add("two");
+        CustomIterator<String> iterator = list.getIterator();
+
+        assertTrue(iterator.hasNext());
+        iterator.next();
+        assertTrue(iterator.hasNext());
+        iterator.next();
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void testIteratorNext() {
+        CustomLinkedList<String> list = new CustomLinkedList<>();
+        list.add("one");
+        list.add("two");
+        CustomIterator<String> iterator = list.getIterator();
+
+        assertEquals("one", iterator.next());
+        assertEquals("two", iterator.next());
+    }
+
+    @Test
+    public void testIteratorForEachRemaining() {
+        CustomLinkedList<String> list = new CustomLinkedList<>();
+        list.add("one");
+        list.add("two");
+        list.add("three");
+        CustomIterator<String> iterator = list.getIterator();
+
+        List<String> result = new ArrayList<>();
+        iterator.forEachRemaining(result::add);
+
+        assertEquals(Arrays.asList("one", "two", "three"), result);
+    }
+
+    @Test
+    public void testIteratorEmptyList() {
+        CustomLinkedList<String> list = new CustomLinkedList<>();
+        CustomIterator<String> iterator = list.getIterator();
+
+        assertFalse(iterator.hasNext());
+        assertThrows(IndexOutOfBoundsException.class, iterator::next);
     }
 }
